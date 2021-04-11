@@ -11,3 +11,9 @@ export interface FolderItem {
   name: string;
   children: Map<string, DirectoryItem>; // Key is the name of the DirectoryItem
 }
+
+export interface Commit {
+  hash: string;
+  time: string;
+  author: string;
+}

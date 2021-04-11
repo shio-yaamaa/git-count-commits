@@ -1,9 +1,8 @@
 import * as path from 'path';
 import * as minimist from 'minimist';
-import * as fsextra from 'fs-extra';
+import * as fs from 'fs-extra';
 
-import { FileItem } from './types';
-import { listFiles } from './gitCommands';
+import { listFiles, getCommitsOnFile } from './gitCommands';
 import { buildDirectoryTree, directoryTreeToJSON } from './directoryTree';
 
 const main = async (): Promise<void> => {
@@ -13,20 +12,17 @@ const main = async (): Promise<void> => {
     console.error('Target directory is required');
     return;
   }
-  let listFilesOutput = await listFiles(targetDirectory);
-  let files: FileItem[] = listFilesOutput
-    .split('\n')
-    .filter((filePath) => filePath.length > 0)
-    .map((filePath) => ({
-      type: 'file',
-      name: path.basename(filePath),
-      path: filePath,
-    }));
+  let files = await listFiles(targetDirectory);
   const directoryTree = buildDirectoryTree(files);
-  fsextra.outputJSONSync(
+  fs.outputJSONSync(
     path.join(__dirname, '../output/directoryTree.json'),
     directoryTreeToJSON(directoryTree)
   );
+
+  for (const file of files) {
+    console.log(file.path);
+    console.log(await getCommitsOnFile(targetDirectory, file));
+  }
 };
 
 main();
