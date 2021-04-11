@@ -54,5 +54,5 @@ export const getCommitsOnFile = async (
 };
 
 const splitLines = (raw: string): string[] => {
-  return raw.split('\n').filter((filePath) => filePath.length > 0);
+  return raw.split('\n').filter((line) => line.length > 0);
 };
