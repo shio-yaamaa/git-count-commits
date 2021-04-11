@@ -1,0 +1,17 @@
+{
+  "name": "git-count-commits",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "shio-yaamaa <shio.yama520@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
+  },
+  "scripts": {
+    "analyze": "yarn workspace analyze run run",
+    "visualize": "yarn workspace visualize start"
+  }
+}
