@@ -1,3 +1,5 @@
+import * as cliProgress from 'cli-progress';
+
 import { CommitCountData, CommitCountDataPerAuthor, FileItem } from './types';
 import { getCommitsOnFile } from './gitCommands';
 import { Counter } from './counter';
@@ -6,8 +8,16 @@ export const createCommitCountData = async (
   workingDirectory: string,
   files: FileItem[]
 ): Promise<CommitCountData> => {
+  const progressBar = new cliProgress.SingleBar(
+    {
+      format: '[{bar}] {percentage}% | {value}/{total} | {filename}',
+    },
+    cliProgress.Presets.shades_classic
+  );
+  progressBar.start(files.length, 0);
   const data: CommitCountData = new Map();
   for (const file of files) {
+    progressBar.update({ filename: file.path });
     const counter = new Counter();
     const commits = await getCommitsOnFile(workingDirectory, file);
     for (const commit of commits) {
@@ -20,7 +30,9 @@ export const createCommitCountData = async (
       const map = data.get(author)!;
       map.set(file.path, count);
     }
+    progressBar.increment();
   }
+  progressBar.stop();
   return data;
 };
 

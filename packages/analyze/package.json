@@ -10,6 +10,7 @@
     "run": "yarn build && node dist/main.js"
   },
   "devDependencies": {
+    "@types/cli-progress": "^3.9.1",
     "@types/fs-extra": "^9.0.10",
     "@types/minimist": "^1.2.1",
     "@typescript-eslint/eslint-plugin": "^4.21.0",
@@ -23,6 +24,7 @@
     "webpack-cli": "^4.6.0"
   },
   "dependencies": {
+    "cli-progress": "^3.9.0",
     "fs-extra": "^9.1.0",
     "minimist": "^1.2.5",
     "prettier": "^2.2.1"
