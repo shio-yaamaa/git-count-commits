@@ -2,8 +2,9 @@ import * as path from 'path';
 import * as minimist from 'minimist';
 import * as fs from 'fs-extra';
 
-import { listFiles, getCommitsOnFile } from './gitCommands';
+import { listFiles } from './gitCommands';
 import { buildDirectoryTree, directoryTreeToJSON } from './directoryTree';
+import { createCommitCountData, commitCountDataToJSON } from './commitCount';
 
 const main = async (): Promise<void> => {
   const args = minimist(process.argv.slice(2));
@@ -18,11 +19,11 @@ const main = async (): Promise<void> => {
     path.join(__dirname, '../output/directoryTree.json'),
     directoryTreeToJSON(directoryTree)
   );
-
-  for (const file of files) {
-    console.log(file.path);
-    console.log(await getCommitsOnFile(targetDirectory, file));
-  }
+  const commitCountData = await createCommitCountData(targetDirectory, files);
+  fs.outputJSONSync(
+    path.join(__dirname, '../output/commitCount.json'),
+    commitCountDataToJSON(commitCountData)
+  );
 };
 
 main();

@@ -17,3 +17,7 @@ export interface Commit {
   time: string;
   author: string;
 }
+
+export type CommitCountData = Map<string, CommitCountDataPerAuthor>; // Key: author
+
+export type CommitCountDataPerAuthor = Map<string, number>; // Key: filename

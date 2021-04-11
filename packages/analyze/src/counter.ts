@@ -1,14 +1,18 @@
 export class Counter {
-  private map: Map<string, number>;
+  private _map: Map<string, number>;
 
   constructor() {
-    this.map = new Map();
+    this._map = new Map();
   }
 
-  increment(key: string) {
-    const currentCount = this.map.get(key) || 0;
+  public increment(key: string) {
+    const currentCount = this._map.get(key) || 0;
     const nextCount = currentCount + 1;
-    this.map.set(key, nextCount);
+    this._map.set(key, nextCount);
     return nextCount;
+  }
+
+  public get map(): Map<string, number> {
+    return this._map;
   }
 }
