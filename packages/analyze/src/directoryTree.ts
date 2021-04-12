@@ -2,10 +2,13 @@ import * as path from 'path';
 
 import { FolderItem, FileItem, DirectoryItem } from './types';
 
-export const buildDirectoryTree = (files: FileItem[]): FolderItem => {
+export const buildDirectoryTree = (
+  files: FileItem[],
+  rootName: string
+): FolderItem => {
   const directoryTree: FolderItem = {
     type: 'folder',
-    name: '',
+    name: rootName,
     children: new Map(),
   };
   for (const file of files) {

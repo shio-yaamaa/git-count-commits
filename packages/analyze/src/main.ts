@@ -13,15 +13,16 @@ const main = async (): Promise<void> => {
     console.error('Target directory is required');
     return;
   }
+  const rootName = path.basename(targetDirectory);
   let files = await listFiles(targetDirectory);
-  const directoryTree = buildDirectoryTree(files);
+  const directoryTree = buildDirectoryTree(files, rootName);
   fs.outputJSONSync(
-    path.join(__dirname, '../output/directoryTree.json'),
+    path.join(__dirname, `../output/${rootName}-directoryTree.json`),
     directoryTreeToJSON(directoryTree)
   );
   const commitCountData = await createCommitCountData(targetDirectory, files);
   fs.outputJSONSync(
-    path.join(__dirname, '../output/commitCount.json'),
+    path.join(__dirname, `../output/${rootName}-commitCount.json`),
     commitCountDataToJSON(commitCountData)
   );
 };
