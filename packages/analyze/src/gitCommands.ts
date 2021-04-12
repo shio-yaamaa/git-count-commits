@@ -30,7 +30,7 @@ export const getCommitsOnFile = async (
 ): Promise<Commit[]> => {
   return new Promise((resolve, reject) => {
     exec(
-      `git log --follow --date=iso --pretty=format:"%H,%ad,%an" ${file.path}`,
+      `git log --follow --date=iso --pretty=format:"%H,%ad,%an" "${file.path}"`,
       { cwd: workingDirectory },
       (error, stdout, stderr) => {
         if (error) {
