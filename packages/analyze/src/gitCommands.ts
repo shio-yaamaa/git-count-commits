@@ -1,7 +1,7 @@
 import { exec } from 'child_process';
 import * as path from 'path';
 
-import { Commit, FileItem } from './types';
+import { CommitCountData, FileItem } from './types';
 
 export const listFiles = async (
   workingDirectory: string
@@ -24,13 +24,13 @@ export const listFiles = async (
   });
 };
 
-export const getCommitsOnFile = async (
+export const getCommitCountDataOfFile = async (
   workingDirectory: string,
   file: FileItem
-): Promise<Commit[]> => {
+): Promise<CommitCountData> => {
   return new Promise((resolve, reject) => {
     exec(
-      `git log --follow --date=iso --pretty=format:"%H,%ad,%an" "${file.path}"`,
+      `git log --follow "${file.path}" | git shortlog --summary`,
       { cwd: workingDirectory },
       (error, stdout, stderr) => {
         if (error) {
@@ -39,15 +39,15 @@ export const getCommitsOnFile = async (
         if (stderr) {
           reject(stderr);
         }
-        const commits: Commit[] = splitLines(stdout).map((commit) => {
-          const [hash, time, author] = commit.split(',');
-          return {
-            hash,
-            time,
+        const commitCountData: CommitCountData = new Map();
+        for (const line of splitLines(stdout)) {
+          const [countString, author] = line.split('\t');
+          commitCountData.set(
             author,
-          };
-        });
-        resolve(commits);
+            new Map([[file.path, parseInt(countString)]])
+          );
+        }
+        resolve(commitCountData);
       }
     );
   });

@@ -1,8 +1,7 @@
 import * as cliProgress from 'cli-progress';
 
 import { CommitCountData, CommitCountDataPerAuthor, FileItem } from './types';
-import { getCommitsOnFile } from './gitCommands';
-import { Counter } from './counter';
+import { getCommitCountDataOfFile } from './gitCommands';
 
 export const createCommitCountData = async (
   workingDirectory: string,
@@ -18,17 +17,21 @@ export const createCommitCountData = async (
   const data: CommitCountData = new Map();
   for (const file of files) {
     progressBar.update({ filename: file.path });
-    const counter = new Counter();
-    const commits = await getCommitsOnFile(workingDirectory, file);
-    for (const commit of commits) {
-      counter.increment(commit.author);
-    }
-    for (const [author, count] of Array.from(counter.map.entries())) {
+    const fileCommitCountData = await getCommitCountDataOfFile(
+      workingDirectory,
+      file
+    );
+    for (const [author, commitCountDataPerAuthor] of Array.from(
+      fileCommitCountData.entries()
+    )) {
       if (!data.has(author)) {
         data.set(author, new Map());
       }
-      const map = data.get(author)!;
-      map.set(file.path, count);
+      const map = data.get(author);
+      const count = commitCountDataPerAuthor.get(file.path);
+      if (map && count) {
+        map.set(file.path, count);
+      }
     }
     progressBar.increment();
   }
