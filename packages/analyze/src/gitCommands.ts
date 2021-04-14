@@ -7,7 +7,7 @@ export const listFiles = async (
   workingDirectory: string
 ): Promise<FileItem[]> => {
   return new Promise((resolve, reject) => {
-    exec('git ls-files', { cwd: workingDirectory }, (error, stdout, stderr) => {
+    exec('git -c "core.quotepath=off" ls-files', { cwd: workingDirectory }, (error, stdout, stderr) => {
       if (error) {
         reject(error);
       }
