@@ -11,10 +11,18 @@ interface Props {
 export const FolderItemComponent: React.VFC<Props> = (props) => {
   return (
     <div className="FolderItemComponent">
-      <div>{props.item.name}</div>
-      {sortDirectoryItems(Object.values(props.item.children)).map((item) => (
-        <DirectoryItemComponent item={item} />
-      ))}
+      <details>
+        <summary className="FolderItemComponent-summary">
+          {props.item.name}
+        </summary>
+        <div className="FolderItemComponent-content">
+          {sortDirectoryItems(Object.values(props.item.children)).map(
+            (item) => (
+              <DirectoryItemComponent item={item} />
+            )
+          )}
+        </div>
+      </details>
     </div>
   );
 };

@@ -1,7 +1,6 @@
 import React from 'react';
 import { DirectoryItem } from '../types';
 import './DirectoryItem.css';
-import { sortDirectoryItems } from '../utils';
 import { FolderItemComponent } from './FolderItemComponent';
 import { FileItemComponent } from './FileItemComponent';
 
