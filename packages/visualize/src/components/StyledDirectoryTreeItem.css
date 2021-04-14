@@ -1,0 +1,12 @@
+.StyledDirectoryTreeItem-label {
+  display: flex;
+  align-items: 'center';
+}
+
+.StyledDirectoryTreeItem-label-main {
+  flex-grow: 1;
+}
+
+.StyledDirectoryTreeItem-label-secondary {
+  color: #888888;
+}

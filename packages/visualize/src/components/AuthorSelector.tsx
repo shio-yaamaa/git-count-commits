@@ -1,4 +1,8 @@
 import React from 'react';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 import './AuthorSelector.css';
 
 interface Props {
@@ -10,16 +14,22 @@ interface Props {
 export const AuthorSelector: React.VFC<Props> = (props) => {
   return (
     <div className="AuthorSelector">
-      <select
-        name="author"
-        onChange={(event) => props.setAuthorName(event.target.value)}
-      >
-        {props.authorNames.map((name) => (
-          <option key={name} value={name} selected={name === props.authorName}>
-            {name}
-          </option>
-        ))}
-      </select>
+      <FormControl>
+        <InputLabel id="AuthorSelector-label">Committer</InputLabel>
+        <Select
+          labelId="AuthorSelector-label"
+          value={props.authorName}
+          onChange={(event) =>
+            props.setAuthorName(event.target.value as string)
+          }
+        >
+          {props.authorNames.map((name) => (
+            <MenuItem key={name} value={name}>
+              {name}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
     </div>
   );
 };

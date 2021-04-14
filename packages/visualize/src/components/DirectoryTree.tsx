@@ -1,4 +1,7 @@
 import React from 'react';
+import TreeView from '@material-ui/lab/TreeView';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import './DirectoryTree.css';
 import { FolderItem, CommitCountDataPerAuthor } from '../types';
 import { DirectoryItemComponent } from './DirectoryItemComponent';
@@ -12,12 +15,18 @@ interface Props {
 export const DirectoryTree: React.VFC<Props> = (props) => {
   return (
     <div className="DirectoryTree">
-      {sortDirectoryItems(Object.values(props.root.children)).map((item) => (
-        <DirectoryItemComponent
-          item={item}
-          commitCountData={props.commitCountData}
-        />
-      ))}
+      <TreeView
+        defaultCollapseIcon={<ArrowDropDownIcon />}
+        defaultExpandIcon={<ArrowRightIcon />}
+      >
+        {sortDirectoryItems(Object.values(props.root.children)).map((item) => (
+          <DirectoryItemComponent
+            key={item.name}
+            item={item}
+            commitCountData={props.commitCountData}
+          />
+        ))}
+      </TreeView>
     </div>
   );
 };

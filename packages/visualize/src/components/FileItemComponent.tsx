@@ -1,5 +1,6 @@
 import React from 'react';
 import './FileItemComponent.css';
+import { StyledDirectoryTreeItem } from './StyledDirectoryTreeItem';
 import { FileItem } from '../types';
 
 interface Props {
@@ -9,8 +10,9 @@ interface Props {
 
 export const FileItemComponent: React.VFC<Props> = (props) => {
   return (
-    <div className="FileItemComponent">
-      {props.item.name} {props.commitCount}
-    </div>
+    <StyledDirectoryTreeItem
+      item={props.item}
+      commitCount={props.commitCount}
+    />
   );
 };
