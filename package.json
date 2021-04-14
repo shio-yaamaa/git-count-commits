@@ -12,6 +12,6 @@
   },
   "scripts": {
     "analyze": "yarn workspace analyze run run",
-    "visualize": "yarn workspace visualize start"
+    "visualize": "yarn workspace visualize setup-data && yarn workspace visualize start"
   }
 }
