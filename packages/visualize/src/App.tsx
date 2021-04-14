@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
-import { FolderItem } from './types';
+import { FolderItem, CommitCountData } from './types';
 import { sortAuthorNames } from './utils';
 import { AuthorSelector } from './components/AuthorSelector';
 import { DirectoryTree } from './components/DirectoryTree';
@@ -17,7 +17,10 @@ export const App: React.VFC = () => {
         authorNames={authorNames}
         setAuthorName={setAuthorName}
       />
-      <DirectoryTree root={directoryTree as FolderItem} />
+      <DirectoryTree
+        root={directoryTree as FolderItem}
+        commitCountData={(commitCountData as CommitCountData)[authorName]}
+      />
     </div>
   );
 };
