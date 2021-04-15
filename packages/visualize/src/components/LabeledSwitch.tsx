@@ -14,7 +14,12 @@ export const LabeledSwitch: React.FC<Props> = (props) => {
   return (
     <FormGroup row>
       <FormControlLabel
-        control={<Switch checked={props.value} onChange={(event) => props.setValue(event.target.checked)} />}
+        control={
+          <Switch
+            checked={props.value}
+            color="primary"
+            onChange={(event) => props.setValue(event.target.checked)} />
+        }
         label={props.label}
       />
     </FormGroup>

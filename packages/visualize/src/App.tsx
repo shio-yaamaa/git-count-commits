@@ -32,9 +32,9 @@ export const App: React.VFC = () => {
           setAuthorName={setAuthorName}
         />
         <LabeledSwitch
-          label="Show items that this person 👆 has not committed"
-          value={showUncommittedItems}
-          setValue={setShowUncommittedItems} />
+          label="Hide files without commits by this person"
+          value={!showUncommittedItems}
+          setValue={(value) => setShowUncommittedItems(!value)} />
         <DirectoryTree
           root={directoryTree}
           commitCountData={commitCountDataPerAuthor}
