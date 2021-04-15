@@ -18,7 +18,8 @@ export const LabeledSwitch: React.FC<Props> = (props) => {
           <Switch
             checked={props.value}
             color="primary"
-            onChange={(event) => props.setValue(event.target.checked)} />
+            onChange={(event) => props.setValue(event.target.checked)}
+          />
         }
         label={props.label}
       />

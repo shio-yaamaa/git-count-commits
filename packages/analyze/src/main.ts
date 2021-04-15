@@ -20,11 +20,11 @@ const main = async (): Promise<void> => {
     path.join(__dirname, `../output/${rootName}-directoryTree.json`),
     directoryTreeToJSON(directoryTree)
   );
-  // const commitCountData = await createCommitCountData(targetDirectory, files);
-  // fs.outputJSONSync(
-  //   path.join(__dirname, `../output/${rootName}-commitCount.json`),
-  //   commitCountDataToJSON(commitCountData)
-  // );
+  const commitCountData = await createCommitCountData(targetDirectory, files);
+  fs.outputJSONSync(
+    path.join(__dirname, `../output/${rootName}-commitCount.json`),
+    commitCountDataToJSON(commitCountData)
+  );
 };
 
 main();

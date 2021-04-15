@@ -6,8 +6,8 @@ import { sortAuthorNames, countMaxCommits } from './utils';
 import { AuthorSelector } from './components/AuthorSelector';
 import { DirectoryTree } from './components/DirectoryTree';
 import { LabeledSwitch } from './components/LabeledSwitch';
-import directoryTree from './data/mecab-directoryTree.json';
-import commitCountData from './data/mecab-commitCount.json';
+import directoryTreeJson from './data/mecab-directoryTree.json';
+import commitCountDataJson from './data/mecab-commitCount.json';
 
 export const App: React.VFC = () => {
   const directoryTree = directoryTreeJson as FolderItem;
@@ -18,7 +18,10 @@ export const App: React.VFC = () => {
   const [showUncommittedItems, setShowUncommittedItems] = useState(true);
 
   const commitCountDataPerAuthor = commitCountData[authorName];
-  const maxCommitCount = countMaxCommits(directoryTree, commitCountDataPerAuthor);
+  const maxCommitCount = countMaxCommits(
+    directoryTree,
+    commitCountDataPerAuthor
+  );
 
   return (
     <div className="App">
@@ -34,7 +37,8 @@ export const App: React.VFC = () => {
         <LabeledSwitch
           label="Hide files without commits by this person"
           value={!showUncommittedItems}
-          setValue={(value) => setShowUncommittedItems(!value)} />
+          setValue={(value) => setShowUncommittedItems(!value)}
+        />
         <DirectoryTree
           root={directoryTree}
           commitCountData={commitCountDataPerAuthor}

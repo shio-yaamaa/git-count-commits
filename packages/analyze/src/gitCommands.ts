@@ -7,20 +7,24 @@ export const listFiles = async (
   workingDirectory: string
 ): Promise<FileItem[]> => {
   return new Promise((resolve, reject) => {
-    exec('git -c "core.quotepath=off" ls-files', { cwd: workingDirectory }, (error, stdout, stderr) => {
-      if (error) {
-        reject(error);
+    exec(
+      'git -c "core.quotepath=off" ls-files',
+      { cwd: workingDirectory },
+      (error, stdout, stderr) => {
+        if (error) {
+          reject(error);
+        }
+        if (stderr) {
+          reject(stderr);
+        }
+        const files: FileItem[] = splitLines(stdout).map((filePath) => ({
+          type: 'file',
+          name: path.basename(filePath),
+          path: filePath,
+        }));
+        resolve(files);
       }
-      if (stderr) {
-        reject(stderr);
-      }
-      const files: FileItem[] = splitLines(stdout).map((filePath) => ({
-        type: 'file',
-        name: path.basename(filePath),
-        path: filePath,
-      }));
-      resolve(files);
-    });
+    );
   });
 };
 

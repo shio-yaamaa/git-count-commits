@@ -18,7 +18,8 @@ export const FolderItemComponent: React.VFC<Props> = (props) => {
     <StyledDirectoryTreeItem
       item={props.item}
       commitCount={props.commitCount}
-      maxCommitCount={props.maxCommitCount}>
+      maxCommitCount={props.maxCommitCount}
+    >
       {sortDirectoryItems(Object.values(props.item.children)).map((item) => (
         <DirectoryItemComponent
           key={item.name}
