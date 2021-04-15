@@ -9,17 +9,22 @@ interface Props {
   item: FolderItem;
   commitCount: number;
   commitCountData: CommitCountDataPerAuthor;
+  maxCommitCount: number;
   showUncommittedItems: boolean;
 }
 
 export const FolderItemComponent: React.VFC<Props> = (props) => {
   return (
-    <StyledDirectoryTreeItem item={props.item} commitCount={props.commitCount}>
+    <StyledDirectoryTreeItem
+      item={props.item}
+      commitCount={props.commitCount}
+      maxCommitCount={props.maxCommitCount}>
       {sortDirectoryItems(Object.values(props.item.children)).map((item) => (
         <DirectoryItemComponent
           key={item.name}
           item={item}
           commitCountData={props.commitCountData}
+          maxCommitCount={props.maxCommitCount}
           showUncommittedItems={props.showUncommittedItems}
         />
       ))}

@@ -8,10 +8,11 @@ import { generateHeatmapColor } from '../color';
 interface Props {
   item: DirectoryItem;
   commitCount: number;
+  maxCommitCount: number;
 }
 
 export const StyledDirectoryTreeItem: React.FC<Props> = (props) => {
-  const { item, commitCount, ...other } = props;
+  const { item, commitCount, maxCommitCount, ...other } = props;
   return (
     <TreeItem
       nodeId={props.item.name}
@@ -32,7 +33,7 @@ export const StyledDirectoryTreeItem: React.FC<Props> = (props) => {
         </div>
       }
       style={{
-        backgroundColor: generateHeatmapColor(commitCount, 1000),
+        backgroundColor: generateHeatmapColor(commitCount, maxCommitCount),
       }}
       {...other}
     />

@@ -6,6 +6,7 @@ import { FileItem } from '../types';
 interface Props {
   item: FileItem;
   commitCount: number;
+  maxCommitCount: number;
 }
 
 export const FileItemComponent: React.VFC<Props> = (props) => {
@@ -13,6 +14,7 @@ export const FileItemComponent: React.VFC<Props> = (props) => {
     <StyledDirectoryTreeItem
       item={props.item}
       commitCount={props.commitCount}
+      maxCommitCount={props.maxCommitCount}
     />
   );
 };

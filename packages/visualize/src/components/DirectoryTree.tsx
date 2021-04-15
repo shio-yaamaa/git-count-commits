@@ -10,6 +10,7 @@ import { sortDirectoryItems } from '../utils';
 interface Props {
   root: FolderItem;
   commitCountData: CommitCountDataPerAuthor;
+  maxCommitCount: number;
   showUncommittedItems: boolean;
 }
 
@@ -25,6 +26,7 @@ export const DirectoryTree: React.VFC<Props> = (props) => {
             key={item.name}
             item={item}
             commitCountData={props.commitCountData}
+            maxCommitCount={props.maxCommitCount}
             showUncommittedItems={props.showUncommittedItems}
           />
         ))}

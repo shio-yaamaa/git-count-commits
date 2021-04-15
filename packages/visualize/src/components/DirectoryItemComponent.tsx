@@ -9,6 +9,7 @@ interface Props {
   item: DirectoryItem;
   commitCountData: CommitCountDataPerAuthor;
   showUncommittedItems: boolean;
+  maxCommitCount: number;
 }
 
 export const DirectoryItemComponent: React.VFC<Props> = (props) => {
@@ -23,6 +24,7 @@ export const DirectoryItemComponent: React.VFC<Props> = (props) => {
           item={props.item}
           commitCount={commitCount}
           commitCountData={props.commitCountData}
+          maxCommitCount={props.maxCommitCount}
           showUncommittedItems={props.showUncommittedItems}
         />
       );
@@ -31,6 +33,7 @@ export const DirectoryItemComponent: React.VFC<Props> = (props) => {
         <FileItemComponent
           item={props.item}
           commitCount={commitCount}
+          maxCommitCount={props.maxCommitCount}
         />
       );
   }

@@ -1,4 +1,4 @@
-import { CommitCountDataPerAuthor, DirectoryItem } from './types';
+import { CommitCountDataPerAuthor, DirectoryItem, FolderItem } from './types';
 
 export const sortAuthorNames = (names: string[]): string[] => {
   return [...names].sort((a, b) =>
@@ -32,4 +32,10 @@ export const countCommits = (
     case 'file':
       return commitCountData[item.path] ?? 0;
   }
+};
+
+export const countMaxCommits = (directoryTree: FolderItem, commitCountData: CommitCountDataPerAuthor): number => {
+  const commitCounts = Object.values(directoryTree.children)
+    .map(item => countCommits(item, commitCountData));
+  return Math.max(...commitCounts);
 };
