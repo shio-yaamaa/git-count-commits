@@ -33,8 +33,10 @@ export const getCommitCountDataOfFile = async (
   file: FileItem
 ): Promise<CommitCountData> => {
   return new Promise((resolve, reject) => {
+    // Not sure how to turn off copy detection
+    // https://stackoverflow.com/questions/44083806/how-to-prevent-git-log-follow-from-following-copies-but-only-follow-renames
     exec(
-      `git log --follow "${file.path}" | git shortlog --summary`,
+      `git log --follow --find-renames=100% "${file.path}" | git shortlog --summary`,
       { cwd: workingDirectory },
       (error, stdout, stderr) => {
         if (error) {
