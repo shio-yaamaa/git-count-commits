@@ -15,7 +15,7 @@ export const StyledDirectoryTreeItem: React.FC<Props> = (props) => {
   const { item, commitCount, maxCommitCount, ...other } = props;
   return (
     <TreeItem
-      nodeId={props.item.name}
+      nodeId={props.item.path}
       label={
         <div className="StyledDirectoryTreeItem-label">
           <Typography

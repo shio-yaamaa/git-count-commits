@@ -9,6 +9,7 @@ export interface FileItem {
 export interface FolderItem {
   type: 'folder';
   name: string;
+  path: string;
   children: { [name: string]: DirectoryItem }; // Key is the name of the DirectoryItem
 }
 

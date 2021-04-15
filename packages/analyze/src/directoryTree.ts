@@ -9,6 +9,7 @@ export const buildDirectoryTree = (
   const directoryTree: FolderItem = {
     type: 'folder',
     name: rootName,
+    path: '',
     children: new Map(),
   };
   for (const file of files) {
@@ -29,6 +30,7 @@ const addToDirectoryTree = (directoryTree: FolderItem, file: FileItem) => {
       currentLocation.children.set(folderName, {
         type: 'folder',
         name: folderName,
+        path: currentLocation.path.length === 0 ? folderName : `${currentLocation.path}/${folderName}`,
         children: new Map(),
       });
     }
