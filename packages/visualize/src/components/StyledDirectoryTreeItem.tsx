@@ -3,6 +3,7 @@ import Typography from '@material-ui/core/Typography';
 import TreeItem from '@material-ui/lab/TreeItem';
 import './StyledDirectoryTreeItem.css';
 import { DirectoryItem } from '../types';
+import { generateHeatmapColor } from '../color';
 
 interface Props {
   item: DirectoryItem;
@@ -30,6 +31,9 @@ export const StyledDirectoryTreeItem: React.FC<Props> = (props) => {
           </Typography>
         </div>
       }
+      style={{
+        backgroundColor: generateHeatmapColor(commitCount, 1000),
+      }}
       {...other}
     />
   );
