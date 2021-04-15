@@ -19,7 +19,6 @@ export const App: React.VFC = () => {
 
   const commitCountDataPerAuthor = commitCountData[authorName];
   const maxCommitCount = countMaxCommits(directoryTree, commitCountDataPerAuthor);
-  console.log(authorName, maxCommitCount);
 
   return (
     <div className="App">
