@@ -8,5 +8,6 @@
 }
 
 .StyledDirectoryTreeItem-label-secondary {
+  padding-right: 0.4rem;
   color: rgba(0, 0, 0, 0.5);
 }
