@@ -1,5 +1,9 @@
 import { CommitCountDataPerAuthor, DirectoryItem, FolderItem } from './types';
 
+export const escapePath = (path: string): string => {
+  return path.replace(/\//g, '_');
+};
+
 export const sortAuthorNames = (names: string[]): string[] => {
   return [...names].sort((a, b) =>
     a.localeCompare(b, undefined, { sensitivity: 'base' })
@@ -34,8 +38,12 @@ export const countCommits = (
   }
 };
 
-export const countMaxCommits = (directoryTree: FolderItem, commitCountData: CommitCountDataPerAuthor): number => {
-  const commitCounts = Object.values(directoryTree.children)
-    .map(item => countCommits(item, commitCountData));
+export const countMaxCommits = (
+  directoryTree: FolderItem,
+  commitCountData: CommitCountDataPerAuthor
+): number => {
+  const commitCounts = Object.values(directoryTree.children).map((item) =>
+    countCommits(item, commitCountData)
+  );
   return Math.max(...commitCounts);
 };

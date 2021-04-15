@@ -2,16 +2,19 @@ import React, { useState } from 'react';
 import { Container } from '@material-ui/core';
 import './App.css';
 import { FolderItem, CommitCountData } from './types';
-import { sortAuthorNames, countMaxCommits } from './utils';
+import { sortAuthorNames, countMaxCommits, escapePath } from './utils';
 import { AuthorSelector } from './components/AuthorSelector';
 import { DirectoryTree } from './components/DirectoryTree';
 import { LabeledSwitch } from './components/LabeledSwitch';
-import directoryTreeJson from './data/mecab-directoryTree.json';
-import commitCountDataJson from './data/mecab-commitCount.json';
 
-export const App: React.VFC = () => {
-  const directoryTree = directoryTreeJson as FolderItem;
-  const commitCountData = commitCountDataJson as CommitCountData;
+interface Props {
+  repositoryPath: string;
+}
+
+export const App: React.VFC<Props> = (props) => {
+  const escapedPath = escapePath(props.repositoryPath);
+  const directoryTree = require(`./data/directoryTree-${escapedPath}.json`) as FolderItem;
+  const commitCountData = require(`./data/commitCount-${escapedPath}.json`) as CommitCountData;
 
   const authorNames = sortAuthorNames(Object.keys(commitCountData));
   const [authorName, setAuthorName] = useState(authorNames[0]);
