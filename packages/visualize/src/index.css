@@ -11,3 +11,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.MuiTreeItem-label {
+  /* Cancel the highlight of the selected item in a TreeView. */
+  background-color: transparent !important;
+}
