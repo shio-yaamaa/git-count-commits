@@ -5,12 +5,14 @@ import { FolderItem, CommitCountData } from './types';
 import { sortAuthorNames } from './utils';
 import { AuthorSelector } from './components/AuthorSelector';
 import { DirectoryTree } from './components/DirectoryTree';
+import { LabeledSwitch } from './components/LabeledSwitch';
 import directoryTree from './data/mecab-directoryTree.json';
 import commitCountData from './data/mecab-commitCount.json';
 
 export const App: React.VFC = () => {
   const authorNames = sortAuthorNames(Object.keys(commitCountData));
   const [authorName, setAuthorName] = useState(authorNames[0]);
+  const [showUncommittedItems, setShowUncommittedItems] = useState(true);
   return (
     <div className="App">
       <Container
@@ -22,9 +24,14 @@ export const App: React.VFC = () => {
           authorNames={authorNames}
           setAuthorName={setAuthorName}
         />
+        <LabeledSwitch
+          label="Show items that this person 👆 has not committed"
+          value={showUncommittedItems}
+          setValue={setShowUncommittedItems} />
         <DirectoryTree
           root={directoryTree as FolderItem}
           commitCountData={(commitCountData as CommitCountData)[authorName]}
+          showUncommittedItems={showUncommittedItems}
         />
       </Container>
     </div>

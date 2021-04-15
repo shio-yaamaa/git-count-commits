@@ -8,23 +8,29 @@ import { FileItemComponent } from './FileItemComponent';
 interface Props {
   item: DirectoryItem;
   commitCountData: CommitCountDataPerAuthor;
+  showUncommittedItems: boolean;
 }
 
 export const DirectoryItemComponent: React.VFC<Props> = (props) => {
+  const commitCount = countCommits(props.item, props.commitCountData);
+  if (!props.showUncommittedItems && commitCount === 0) {
+    return null;
+  }
   switch (props.item.type) {
     case 'folder':
       return (
         <FolderItemComponent
           item={props.item}
-          commitCount={countCommits(props.item, props.commitCountData)}
+          commitCount={commitCount}
           commitCountData={props.commitCountData}
+          showUncommittedItems={props.showUncommittedItems}
         />
       );
     case 'file':
       return (
         <FileItemComponent
           item={props.item}
-          commitCount={countCommits(props.item, props.commitCountData)}
+          commitCount={commitCount}
         />
       );
   }

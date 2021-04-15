@@ -9,6 +9,7 @@ interface Props {
   item: FolderItem;
   commitCount: number;
   commitCountData: CommitCountDataPerAuthor;
+  showUncommittedItems: boolean;
 }
 
 export const FolderItemComponent: React.VFC<Props> = (props) => {
@@ -19,6 +20,7 @@ export const FolderItemComponent: React.VFC<Props> = (props) => {
           key={item.name}
           item={item}
           commitCountData={props.commitCountData}
+          showUncommittedItems={props.showUncommittedItems}
         />
       ))}
     </StyledDirectoryTreeItem>
