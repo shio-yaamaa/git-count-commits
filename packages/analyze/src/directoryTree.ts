@@ -70,3 +70,23 @@ const folderChildrenToJSON = (
   }
   return json;
 };
+
+export const listDirectoryItemsInFolder = (
+  folder: FolderItem
+): DirectoryItem[] => {
+  return Array.from(folder.children.values())
+    .map((child) => {
+      switch (child.type) {
+        case 'folder':
+          return [child, ...listDirectoryItemsInFolder(child)];
+        case 'file':
+          return [child];
+        default:
+          return [];
+      }
+    })
+    .reduce(
+      (previousList, currentList) => previousList.concat(currentList),
+      []
+    );
+};

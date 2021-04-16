@@ -1,7 +1,7 @@
 import { exec } from 'child_process';
 import * as path from 'path';
 
-import { CommitCountData, FileItem } from './types';
+import { CommitCountData, FileItem, DirectoryItem } from './types';
 
 export const listFiles = async (
   workingDirectory: string
@@ -28,15 +28,15 @@ export const listFiles = async (
   });
 };
 
-export const getCommitCountDataOfFile = async (
+export const getCommitCountDataOfDirectoryItem = async (
   workingDirectory: string,
-  file: FileItem
+  item: DirectoryItem
 ): Promise<CommitCountData> => {
   return new Promise((resolve, reject) => {
     // Not sure how to turn off copy detection
     // https://stackoverflow.com/questions/44083806/how-to-prevent-git-log-follow-from-following-copies-but-only-follow-renames
     exec(
-      `git log --follow --find-renames=100% "${file.path}" | git shortlog --summary`,
+      `git log --follow --find-renames=100% "${item.path}" | git shortlog --summary`,
       { cwd: workingDirectory },
       (error, stdout, stderr) => {
         if (error) {
@@ -50,7 +50,7 @@ export const getCommitCountDataOfFile = async (
           const [countString, author] = line.split('\t');
           commitCountData.set(
             author,
-            new Map([[file.path, parseInt(countString)]])
+            new Map([[item.path, parseInt(countString)]])
           );
         }
         resolve(commitCountData);

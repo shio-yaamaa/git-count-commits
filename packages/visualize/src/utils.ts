@@ -28,14 +28,7 @@ export const countCommits = (
   item: DirectoryItem,
   commitCountData: CommitCountDataPerAuthor
 ): number => {
-  switch (item.type) {
-    case 'folder':
-      return Object.values(item.children)
-        .map((item) => countCommits(item, commitCountData))
-        .reduce((a, b) => a + b, 0);
-    case 'file':
-      return commitCountData[item.path] ?? 0;
-  }
+  return commitCountData[item.path] ?? 0;
 };
 
 export const countMaxCommits = (

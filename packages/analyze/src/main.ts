@@ -3,7 +3,11 @@ import * as minimist from 'minimist';
 import * as fs from 'fs-extra';
 
 import { listFiles } from './gitCommands';
-import { buildDirectoryTree, directoryTreeToJSON } from './directoryTree';
+import {
+  buildDirectoryTree,
+  directoryTreeToJSON,
+  listDirectoryItemsInFolder,
+} from './directoryTree';
 import { createCommitCountData, commitCountDataToJSON } from './commitCount';
 import { escapePath } from './utils';
 
@@ -22,7 +26,11 @@ const main = async (): Promise<void> => {
     path.join(__dirname, `../output/directoryTree-${escapedPath}.json`),
     directoryTreeToJSON(directoryTree)
   );
-  const commitCountData = await createCommitCountData(targetDirectory, files);
+  const directoryItems = listDirectoryItemsInFolder(directoryTree);
+  const commitCountData = await createCommitCountData(
+    targetDirectory,
+    directoryItems
+  );
   fs.outputJSONSync(
     path.join(__dirname, `../output/commitCount-${escapedPath}.json`),
     commitCountDataToJSON(commitCountData)
