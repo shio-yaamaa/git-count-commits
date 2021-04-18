@@ -2,6 +2,7 @@ package git
 
 import (
 	"fmt"
+	"log"
 	"os/exec"
 	"strconv"
 	"strings"
@@ -17,31 +18,38 @@ type CommitCountDataPerAuthor = map[string]int             // Key: filename
 func CreateCommitCountData(repositoryPath string, items []fs.DirectoryItem) (CommitCountData, error) {
 	progressBar := pb.StartNew(len(items))
 	data := make(map[string]CommitCountDataPerAuthor)
+	channel := make(chan CommitCountData, 1)
+	concurrentLimitter := make(chan struct{}, 10)
 	for _, item := range items {
-		fileCommitCountData, err := getCommitCountDataOfDirectoryItem(repositoryPath, item)
-		if err != nil {
-			return CommitCountData{}, err
-		}
+		go getCommitCountDataOfDirectoryItem(repositoryPath, item, channel, concurrentLimitter, progressBar)
+	}
+
+	for i := 0; i < len(items); i++ {
+		fileCommitCountData := <-channel
 		for authorName, fileCommitCountDataPerAuthor := range fileCommitCountData {
 			_, exists := data[authorName]
 			if !exists {
 				data[authorName] = make(map[string]int)
 			}
-			data[authorName][item.Path] = fileCommitCountDataPerAuthor[item.Path]
+			for path, count := range fileCommitCountDataPerAuthor {
+				data[authorName][path] = count
+			}
 		}
-		progressBar.Increment()
 	}
 	progressBar.Finish()
 	return data, nil
 }
 
-func getCommitCountDataOfDirectoryItem(repositoryPath string, item fs.DirectoryItem) (CommitCountData, error) {
+func getCommitCountDataOfDirectoryItem(repositoryPath string, item fs.DirectoryItem, channel chan CommitCountData, concurrentLimitter chan struct{}, progressBar *pb.ProgressBar) {
+	concurrentLimitter <- struct{}{}
+	defer func() { <-concurrentLimitter }()
 	// Not sure how to turn off copy detection
 	// https://stackoverflow.com/questions/44083806/how-to-prevent-git-log-follow-from-following-copies-but-only-follow-renames
 	command := fmt.Sprintf("git -C %s log --follow --find-renames=100%% %s | git shortlog --summary", repositoryPath, item.Path)
 	output, err := exec.Command("bash", "-c", command).Output()
 	if err != nil {
-		return CommitCountData{}, err
+		log.Fatal(err)
+		channel <- CommitCountData{}
 	}
 
 	data := make(map[string]CommitCountDataPerAuthor)
@@ -55,5 +63,6 @@ func getCommitCountDataOfDirectoryItem(repositoryPath string, item fs.DirectoryI
 			item.Path: count,
 		}
 	}
-	return data, nil
+	progressBar.Increment()
+	channel <- data
 }
