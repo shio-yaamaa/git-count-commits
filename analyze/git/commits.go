@@ -6,6 +6,8 @@ import (
 	"strconv"
 	"strings"
 
+	pb "github.com/cheggaaa/pb/v3"
+
 	"github.com/shio-yaamaa/git-count-commits/fs"
 )
 
@@ -13,6 +15,7 @@ type CommitCountData = map[string]CommitCountDataPerAuthor // Key: author
 type CommitCountDataPerAuthor = map[string]int             // Key: filename
 
 func CreateCommitCountData(repositoryPath string, items []fs.DirectoryItem) (CommitCountData, error) {
+	progressBar := pb.StartNew(len(items))
 	data := make(map[string]CommitCountDataPerAuthor)
 	for _, item := range items {
 		fileCommitCountData, err := getCommitCountDataOfDirectoryItem(repositoryPath, item)
@@ -26,7 +29,9 @@ func CreateCommitCountData(repositoryPath string, items []fs.DirectoryItem) (Com
 			}
 			data[authorName][item.Path] = fileCommitCountDataPerAuthor[item.Path]
 		}
+		progressBar.Increment()
 	}
+	progressBar.Finish()
 	return data, nil
 }
 
