@@ -1,3 +1,7 @@
+<img src="https://github.com/shio-yaamaa/git-count-commits/blob/main/docs/images/screenshot.png">
+
+---
+
 How to show commit stats of a repository `/Users/me/my-project`:
 
 ## 1. Clone and Setup
